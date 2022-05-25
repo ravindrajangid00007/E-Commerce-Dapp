@@ -5,6 +5,12 @@
 /.pnp
 .pnp.js
 
+#contracts
+/contracts/node_modules
+/contracts/cache
+
+/contracts/artifacts
+
 # testing
 /coverage
 
