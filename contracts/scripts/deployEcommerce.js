@@ -14,12 +14,26 @@ async function main() {
   // await hre.run('compile');
 
   // We get the contract to deploy
-  const Greeter = await hre.ethers.getContractFactory("Greeter");
-  const greeter = await Greeter.deploy("Hello, Hardhat!");
+  const Ecommerce = await hre.ethers.getContractFactory("Ecommerce");
+  const ecommerce = await Ecommerce.deploy();
 
-  await greeter.deployed();
+  await ecommerce.deployed();
 
-  console.log("Greeter deployed to:", greeter.address);
+  console.log("Ecommerce deployed to:", ecommerce.address);
+
+  // const acc = await hre.ethers.getSigners();
+
+  // const [seller, buyer] = acc.map((a) => a.address);
+
+  // await ecommerce.addSeller("seller1");
+
+  // await ecommerce.addProduct("prod1", 1, 10, "imghash");
+
+  // // const pords = await ecommerce.getSellerProducts();
+
+  // const buyerAdd = hre.ethers.utils.getAddress(buyer);
+
+  // await ecommerce.addBuyer("buyer1");
 }
 
 // We recommend this pattern to be able to use async/await everywhere

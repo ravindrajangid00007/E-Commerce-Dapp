@@ -1,19 +1,34 @@
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
-describe("Greeter", function () {
-  it("Should return the new greeting once it's changed", async function () {
-    const Greeter = await ethers.getContractFactory("Greeter");
-    const greeter = await Greeter.deploy("Hello, world!");
-    await greeter.deployed();
+describe("Ecommerce", function () {
+  it("Add new seller and get back its data", async function () {
+    const Ecommerce = await ethers.getContractFactory("Ecommerce");
+    const ecommerce = await Ecommerce.deploy();
+    await ecommerce.deployed();
 
-    expect(await greeter.greet()).to.equal("Hello, world!");
+    const [seller, buyer] = (await ethers.getSigners()).map(
+      (acc) => acc.address
+    );
 
-    const setGreetingTx = await greeter.setGreeting("Hola, mundo!");
+    console.log("buyer-", buyer);
 
-    // wait until the transaction is mined
-    await setGreetingTx.wait();
+    await ecommerce.addSeller("seller1");
 
-    expect(await greeter.greet()).to.equal("Hola, mundo!");
+    await ecommerce.addProduct("prod1", 1, 10, "imghash");
+
+    await ecommerce.addBuyer("buyer1");
+
+    const prod = await ecommerce.getProduct(1);
+
+    // const prods = await ecommerce.getSellerProducts();
+    // expect(name).to.equal("null");
+
+    // const setGreetingTx = await ecommerce.setGreeting("Hola, mundo!");
+
+    // // wait until the transaction is mined
+    // await setGreetingTx.wait();
+
+    // expect(await ecommerce.greet()).to.equal("Hola, mundo!");
   });
 });
