@@ -1,0 +1,36 @@
+.productCardImage {
+    width: 13vmax;
+    height: 17vmax;
+}
+
+.productCard {
+    width: 13vmax;
+}
+
+.productCardBody {
+    height: 10vmax;
+}
+
+.productCardTitle {
+    font: 400 1.3vmax "Luxurious Roman";
+    margin: 0 0;
+}
+
+.productPrice {
+    font: 500 1.7vmax "Neonderthaw";
+}
+
+.productStarReviews {
+    margin-top: -15px;
+}
+
+@media screen and (max-width: 900px) {
+    .productCardBody {
+        height: 15vmax;
+    }
+}
+@media screen and (max-width: 375px) {
+    .productCardBody {
+        height: 21vmax;
+    }
+}
