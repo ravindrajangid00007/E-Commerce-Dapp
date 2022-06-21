@@ -1,14 +1,55 @@
-import React , {useState} from 'react';
+import React, { useState , useEffect } from 'react';
 import { Link } from "react-router-dom";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import HamburgerMenu from 'react-hamburger-menu';
 import './Header.css';
 import SearchBar from './SearchBar.js';
-
+import Button from '@mui/material/Button';
+import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { checkSellerPresent, checkBuyerPresent } from '../../configurations/web3'
+import { setOldUserTrue, setOldUserFalse } from '../../state/slices/user';
+import {setUserTypeBuyer , setUserTypeSeller } from '../../state/slices/user';
 function Header() {
-  const [showHamburgerMenu, setShowHamburgerMenu] = useState(false);
-    let isAuthenticated = false;
-    let cartItems = {};
+    const navigate = useNavigate();
+    const [showHamburgerMenu, setShowHamburgerMenu] = useState(false);
+    const dispatch = useDispatch();
+    const { isOldUser } = useSelector((state) => state.user);
+  const { cartItems } = useSelector((state) => state.cart);
+    
+    const [oldUser , setOldUser] = useState(false);
+    const handleBuyer = async () => {
+        const res = await checkBuyerPresent();
+        if (res === true) {
+            dispatch(setOldUserTrue());
+            dispatch(setUserTypeBuyer());
+            navigate('/');
+        } else {
+            navigate('/buyer-form');
+        }
+    }
+    const handleLogout = async () => {
+        dispatch(setOldUserFalse());
+        navigate('/');
+    }
+
+
+
+    const handleSeller = async () => {
+        const res = await checkSellerPresent();
+        if (res === true) {
+            dispatch(setOldUserTrue());
+            dispatch(setUserTypeSeller());
+            navigate('/');
+        } else {
+            navigate('/seller-form');
+        }
+    }
+
+    useEffect(() => {
+        console.log("render again")
+    }, [isOldUser])
+    
     return (
         <>
             <div className="navbar-back">
@@ -24,11 +65,14 @@ function Header() {
                         <SearchBar />
                         <div className={showHamburgerMenu ? "profile-cart mobile-profile-cart " : "profile-cart"}>
                             <div className="login-profile">
-                                {isAuthenticated === true ? (<div>
-                                   user
+                                {isOldUser === true ? (<div>
+                                    <Button disabled>User</Button>
+                                    <Button variant="contained" onClick={handleLogout}>Logout</Button>
+
                                 </div>)
                                     : (<div>
-                                        <Link to="/login">Buyer/Seller</Link>
+                                        <Button variant="contained" onClick={handleBuyer}>Buyer</Button>
+                                        <Button variant="contained" onClick={handleSeller}>Seller</Button>
                                     </div>)
                                 }
                             </div>

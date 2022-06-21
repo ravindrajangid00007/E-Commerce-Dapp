@@ -1,0 +1,95 @@
+.updateOrderForm {
+  margin: 5vmax 0;
+  padding: 3vmax;
+  background-color: white;
+}
+.confirmOrderPage {
+  height: 100%;
+  background-color: #fff;
+  display: grid;
+  grid-template-columns: 6fr 3fr;
+}
+.confirmshippingArea {
+  padding: 5vmax 5vmax 0;
+}
+.confirmshippingArea>p {
+  font: 400 2.5vmax Roboto;
+}
+.orderDetailsCartItemsContainer, .orderDetailsContainerBox {
+  margin: 2vmax;
+}
+.orderDetailsContainerBox>div {
+  display: flex;
+  margin: 1vmax 0;
+  align-items: center;
+}
+
+
+.confirmOrderPage > div {
+  height: 100%;
+  overflow: auto;
+}
+
+.updateOrderForm > div {
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+.updateOrderForm > div > select {
+  padding: 1vmax 4vmax;
+  margin: 2rem 0;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.267);
+  border-radius: 4px;
+  font: 300 0.9vmax cursive;
+  outline: none;
+}
+
+.confirmCartItems {
+  padding: 5vmax;
+}
+
+.confirmCartItems>p {
+  font: 400 2.5vmax Roboto;
+}
+
+.confirmCartItemsContainer {
+  max-height: 20vmax;
+  overflow-y: auto;
+}
+.confirmCartItemsContainer>div {
+  align-items: center;
+  display: flex;
+  font: 400 1.6vmax Roboto;
+  justify-content: space-between;
+  margin: 2vmax 0;
+}
+
+.updateOrderForm > div > svg {
+  position: absolute;
+  transform: translateX(1vmax);
+  font-size: 1.6vmax;
+  color: rgba(0, 0, 0, 0.623);
+}
+.greenColor {
+    color: green;
+}
+.redColor {
+    color: red;
+}
+
+@media screen and (max-width: 600px) {
+  .updateOrderForm {
+    padding: 5vmax;
+  }
+
+  .updateOrderForm > div > select {
+    padding: 2.5vmax 5vmax;
+    font: 300 1.7vmax cursive;
+  }
+
+  .updateOrderForm > div > svg {
+    font-size: 2.8vmax;
+  }
+}

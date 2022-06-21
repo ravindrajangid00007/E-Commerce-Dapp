@@ -1,32 +1,33 @@
 import { createSlice } from '@reduxjs/toolkit'
-import contract from '../../configurations/web3';
+
 const initialState = {
-  loading: true,
-  isAuthenticated: false,
+  isOldUser : false,
+  userType: 'buyer',
 }
 
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    loginUser: (state) => {
-      contract.methods.somFunc().send({ from: ....})
-        .on('receipt', function () {
-      });
-state.loading = false;
-state.isAuthenticated = true;
-      // state.user = data.address;
+    setOldUserTrue: (state) => {
+      state.isOldUser = true
     },
-decrement: (state) => {
-  state.value -= 1
-},
-  incrementByAmount: (state, action) => {
-    state.value += action.payload
-  },
+    setOldUserFalse: (state) => {
+      state.isOldUser = false;
+    },
+    setUserTypeSeller: (state) => {
+      state.userType = 'seller';
+    },
+    setUserTypeBuyer: (state) => {
+      state.userType = 'buyer';
+    },
+    setUserTypeEmpty: (state) => {
+      state.userType = '';
+    }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { increment, decrement, incrementByAmount } = demoSlice.actions
+export const { setOldUserTrue , setOldUserFalse , setUserTypeSeller , setUserTypeEmpty , setUserTypeBuyer} = userSlice.actions;
 
-export default demoSlice.reducer
+export default userSlice.reducer

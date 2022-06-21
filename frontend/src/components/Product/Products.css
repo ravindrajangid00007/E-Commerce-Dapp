@@ -1,9 +1,9 @@
 .productsPage {
-    display: grid;
-    grid-auto-columns: 1fr;
-    grid-template-columns: 1.5fr 5fr;
-    grid-template-rows: auto;
-    height: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
     width: 100%;
     position: absolute;
     background-color: white;
@@ -55,7 +55,8 @@
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-around;
-    width: 100%;
+    padding: 4em;
+    
   }
   
   /* pagination style goes here  */

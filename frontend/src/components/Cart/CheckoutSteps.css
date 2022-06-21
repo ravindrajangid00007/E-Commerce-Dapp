@@ -1,0 +1,9 @@
+.shippingStepsComponent {
+    margin-top: 6vmax;
+}
+
+@media screen and (max-width: 600px) {
+    .shippingStepsComponent {
+        margin-top: 10vmax;
+    }
+}

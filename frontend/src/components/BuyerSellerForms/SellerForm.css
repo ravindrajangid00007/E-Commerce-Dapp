@@ -1,0 +1,32 @@
+.seller-form {
+    min-height: 500px;
+    min-width: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    width: auto;
+
+}
+
+.seller-form > form {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    flex-direction: column;
+}
+.seller-form > form > label {
+    font-size: 1.5em;
+    font-family: sans-serif;
+    margin:  0.5em 0;
+}
+.seller-form > form > input {
+    font-size: 1.5em;
+    padding: 0.5em;
+    width: 100%;
+    font-family: sans-serif;
+}
+
+.seller-form > form > button {
+    margin-top: 0.5em;
+}
