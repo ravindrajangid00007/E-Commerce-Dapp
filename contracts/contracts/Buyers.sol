@@ -18,6 +18,9 @@ contract Buyers {
         uint256 amt;
         address payable sellerAddress;
         bool paymentStatus;
+        string orderStatus;
+        string pmtId;
+        address buyerAdd;
     }
 
     Buyer[] public buyers;
@@ -59,15 +62,39 @@ contract Buyers {
         emit BuyerAdded(_name, _deliveryAdd, msg.sender);
     }
 
+    function getBuyerInfo(address _buyerAddress)
+        public
+        view
+        returns (Buyer memory)
+    {
+        for (uint256 i = 0; i < buyers.length; i++) {
+            if (_buyerAddress == buyers[i].buyerAddress) {
+                return buyers[i];
+            }
+        }
+    }
+
     function addOrder(
         uint256 _pid,
         uint256 _qnt,
         uint256 _amt,
-        address payable sellerAdd
+        address payable sellerAdd,
+        string memory _orderStatus,
+        string memory _pmtId
     ) internal {
         orderId++;
         orderList[msg.sender].push(
-            Order(orderId, _pid, _qnt, _amt, sellerAdd, false)
+            Order(
+                orderId,
+                _pid,
+                _qnt,
+                _amt,
+                sellerAdd,
+                false,
+                _orderStatus,
+                _pmtId,
+                msg.sender
+            )
         );
         emit ProductBought(orderId, _pid, _qnt, _amt, msg.sender);
     }
@@ -77,19 +104,26 @@ contract Buyers {
     }
 
     function getOrderById(uint256 _oId) public view returns (Order memory) {
-        Order[] memory orders = orderList[msg.sender];
-        for (uint256 i = 0; i < orders.length; i++) {
-            if (orders[i].ordId == _oId) {
-                return orders[i];
+        for (uint256 j = 0; j < buyers.length; j++) {
+            address buyerAdd = buyers[j].buyerAddress;
+            Order[] memory orders = orderList[buyerAdd];
+            for (uint256 i = 0; i < orders.length; i++) {
+                if (orders[i].ordId == _oId) {
+                    return orders[i];
+                }
             }
         }
+
         Order memory nullOrder = Order(
             0,
             0,
             0,
             0,
             payable(address(0x0)),
-            false
+            false,
+            "",
+            "",
+            address(0x0)
         );
         return nullOrder;
     }
@@ -99,6 +133,7 @@ contract Buyers {
         for (uint256 i = 0; i < orders.length; i++) {
             if (orders[i].ordId == _oId) {
                 orders[i].paymentStatus = true;
+                orders[i].orderStatus = "delivered";
                 break;
             }
         }
@@ -117,31 +152,4 @@ contract Buyers {
         Order memory order = getOrderById(_oId);
         return order.sellerAddress;
     }
-
-    // function getSellerOrders() public view returns (Order[] memory) {
-    //     uint256 orderCount = 0;
-    //     for (uint256 i = 1; i <= buyerCount; i++) {
-    //         Order[] memory orders = orderList[i];
-    //         for (uint256 j = 0; j < orders.length; j++) {
-    //             if (orders[j].sellerAddress == msg.sender) {
-    //                 orderCount++;
-    //             }
-    //         }
-    //     }
-    //     Order[] memory sellerOrders = new Order[](orderCount);
-    //     uint256 orderCounter = 0;
-    //     for (uint256 i = 1; i <= buyerCount; i++) {
-    //         Order[] memory orders = orderList[i];
-    //         for (uint256 j = 0; j < orders.length; j++) {
-    //             if (orders[j].sellerAddress == msg.sender) {
-    //                 sellerOrders[orderCounter] = orders[j];
-    //                 orderCounter++;
-    //                 if (orderCounter == orderCount) {
-    //                     break;
-    //                 }
-    //             }
-    //         }
-    //     }
-    //     return sellerOrders;
-    // }
 }

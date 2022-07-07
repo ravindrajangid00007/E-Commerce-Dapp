@@ -11,6 +11,8 @@ contract Products {
         uint256 price;
         uint256 stock;
         string imgHash;
+        string desc;
+        string category;
         address payable sellerAddress;
     }
 
@@ -24,6 +26,8 @@ contract Products {
         uint256 price,
         uint256 stock,
         string imgHash,
+        string desc,
+        string category,
         address payable sellerAddress
     );
 
@@ -40,7 +44,7 @@ contract Products {
     }
 
     function getName(uint256 _pid) public view returns (string memory) {
-        return products[_pid-1].name;
+        return products[_pid - 1].name;
     }
 
     function getSellerAddress(uint256 _pid)
@@ -48,7 +52,7 @@ contract Products {
         view
         returns (address payable)
     {
-        return products[_pid-1].sellerAddress;
+        return products[_pid - 1].sellerAddress;
     }
 
     function getSellerProducts() public view returns (Product[] memory) {
@@ -69,5 +73,44 @@ contract Products {
 
     function getAllProducts() public view returns (Product[] memory) {
         return products;
+    }
+
+    function countProductsByCat(string memory cate)
+        private
+        view
+        returns (uint256)
+    {
+        uint256 count = 0;
+        for (uint256 i = 0; i < products.length; i++) {
+            if (
+                keccak256(bytes(products[i].category)) == keccak256(bytes(cate))
+            ) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    function getProductsByCategory(string memory category)
+        public
+        view
+        returns (Product[] memory)
+    {
+        uint256 noOfProds = countProductsByCat(category);
+        uint256 counter = 0;
+        Product[] memory prods = new Product[](noOfProds);
+        for (uint256 i = 0; i < products.length; i++) {
+            if (
+                keccak256(bytes(products[i].category)) ==
+                keccak256(bytes(category))
+            ) {
+                prods[counter] = products[i];
+                counter++;
+                if (counter == noOfProds) {
+                    break;
+                }
+            }
+        }
+        return prods;
     }
 }
