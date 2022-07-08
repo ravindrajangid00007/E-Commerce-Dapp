@@ -1,4 +1,4 @@
-import React , {useState} from 'react';
+import React , {useState , useEffect} from 'react';
 import { useSelector , useDispatch} from 'react-redux';
 import CheckoutSteps from './CheckoutSteps';
 import "./ConfirmOrder.css";
@@ -12,7 +12,9 @@ const Web3 = require('web3');
 const ConfirmOrder = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
     const [loading , setLoading] = useState(false);
+    const [user , setUser] = useState({});
     const { cartItems } = useSelector((state) => state.cart);
     // const { user } = useSelector((state) => state.user);
     const subtotal = cartItems.reduce((acc, item) => acc + item.quantity * item.price, 0);
@@ -23,6 +25,13 @@ const ConfirmOrder = () => {
     // const address = `${shippingInfo.address}, ${shippingInfo.city}, ${shippingInfo.state}, ${shippingInfo.pinCode}, ${shippingInfo.country}`;
     const addressShipping = "address";
 
+    useEffect(() => {
+        ecommerce.methods.getBuyerInfo(address).call()
+        .then((user) => {
+            console.log("User" , user);
+            setUser(user);
+        });
+    },[]);
     const proceedToPayment = () => {
         //payment to be happen
         let name = [] ;
@@ -74,17 +83,16 @@ const ConfirmOrder = () => {
                     <div className="confirmshippingAreaBox">
                         <div>
                             <p>Name:</p>
-                            <span>name</span>
-                            {/* <span>{user.name}</span> */}
+                            <span>{user.name}</span>
                         </div>
                         <div>
                             <p>Phone:</p>
                             {/* <span>{shippingInfo.phoneNo}</span> */}
-                            <span>234141324134</span>
+                            <span>+918949392910</span>
                         </div>
                         <div>
                             <p>Address:</p>
-                            <span>{addressShipping}</span>
+                            <span>{user.deliveryAdd}</span>
                         </div>
                     </div>
                 </div>

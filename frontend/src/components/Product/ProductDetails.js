@@ -118,7 +118,7 @@ function ProductDetails() {
                             </p>
                         </div>
                         <div className="detailsBlock-4">
-                            Description: <p>{product.description}</p>
+                            Description: <p>{product.desc}</p>
                         </div>
                     </div>
                 </div>

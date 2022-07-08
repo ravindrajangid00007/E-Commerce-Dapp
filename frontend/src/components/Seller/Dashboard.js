@@ -6,6 +6,7 @@ import { Typography } from "@material-ui/core";
 import { Doughnut, Line } from "react-chartjs-2";
 import { useSelector, useDispatch } from "react-redux";
 import {ecommerce , address} from '../../configurations/web3'
+
 // import {
 //     getAdminProducts,
 // } from "../../state/action-creators/productAction";
@@ -22,7 +23,8 @@ import {
     ArcElement
 } from 'chart.js';
 
-import { Chart } from 'react-chartjs-2'
+import { Chart } from 'react-chartjs-2';
+const Web3 = require('web3');
 const Dashboard = () => {
     const dispatch = useDispatch();
     let outOfStock = 0;
@@ -39,15 +41,17 @@ const Dashboard = () => {
         ecommerce.methods.getSellerOrders().call({ from: address })
             .then((orders) => {
                 setOrders(orders);
+                console.log("orders", orders);
             })
     }, []);
 
-    const totalAmount = orders.reduce((acc, item) => acc + item.amt, 0);
+    const totalAmount = orders.reduce((acc, item) => acc + Number(Web3.utils.fromWei(item.amt, 'ether')), 0);
     products && products.forEach((product) => {
-        if (product.stock === 0) {
+        if (product.stock == 0) {
             outOfStock = outOfStock + 1;
         }
     });
+
     ChartJS.register(
         CategoryScale,
         LinearScale,
@@ -58,6 +62,7 @@ const Dashboard = () => {
         Legend,
         ArcElement
     )
+    
     const lineState = {
         labels: ["Initial Amount", "Total Earned"],
         datasets: [
@@ -95,7 +100,7 @@ const Dashboard = () => {
                 <div className="dashboardSummary">
                     <div>
                         <p>
-                            Total Amount <br /> ₹{totalAmount}
+                            Total Amount <br /> {totalAmount} eth
                         </p>
                     </div>
                     <div className="dashboardSummaryBox2">

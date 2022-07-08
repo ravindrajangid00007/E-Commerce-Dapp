@@ -29,7 +29,7 @@ function BuyerForm() {
 
                     <label for="lname">Delivery Address</label>
                         <input type="text" id="lname" value={address} onChange={e => setAddress(e.target.value)}  placeholder="delivery address" />
-                    <Button variant="contained" onClick={handleBuyerForm}>Add Seller</Button>
+                    <Button variant="contained" onClick={handleBuyerForm}>Add Buyer</Button>
                 </form>
             </div>
         </>

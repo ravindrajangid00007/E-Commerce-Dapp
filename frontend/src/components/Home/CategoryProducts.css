@@ -4,8 +4,11 @@
 
 .category-wise-product-container > h2 {
     margin: auto;
+    margin-bottom: 2em;
     text-align: center;
     font-family: 'Roboto';
+    font-size: 2em;
+
 }
 
 .rec-carousel {

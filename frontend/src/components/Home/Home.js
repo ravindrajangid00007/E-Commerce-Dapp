@@ -12,13 +12,10 @@ import { Link } from "react-router-dom";
 import './Home.css';
 function Home() {
     const categories = [
+        "Electronics",
         "Footwear",
-        "Laptop",
-        "Bottom",
-        "Tops",
-        "Attire",
-        "Camera",
-        "SmartPhones",
+        "Stationary",
+        "Toys",
     ];
 
     const categoryImages = [

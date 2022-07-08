@@ -22,13 +22,10 @@ const NewProduct = () => {
 
 
     const categories = [
-        "Laptop",
+        "Electronics",
         "Footwear",
-        "Bottom",
-        "Tops",
-        "Attire",
-        "Camera",
-        "SmartPhones",
+        "Stationary",
+        "Toys",
     ];
 
     const [name, setName] = useState("");
@@ -52,18 +49,24 @@ const NewProduct = () => {
         //process file for IPFS...
         const file = event.target.files[0]
         console.log("file", file)
+        
+        const readerP = new FileReader();
+        readerP.onload = () => {
+            if (readerP.readyState === 2) {
+                setImagePreview(readerP.result);
+                console.log("image preview" , imagePreview)
+            }
+        };
+        readerP.readAsDataURL(file);
+
         const reader = new FileReader();
         reader.readAsArrayBuffer(file)
         reader.onloadend = () => {
             console.log("called 2")
-            if (reader.readyState === 2) {
-
-                setImagePreview(reader.result[0]);
-                console.log("set image preview", imagePreview);
-            }
             setBuffer(Buffer(reader.result));
             console.log("buffer ", buffer);
         }
+
 
     }
 
@@ -99,11 +102,9 @@ const NewProduct = () => {
         const weiValue = Web3.utils.toWei(price, 'ether');
         console.log("weiValue", weiValue);
         console.log("price", price);
-        setLoading(true);
         ecommerce.methods.addProduct(name, weiValue, stock,description,category,imageHash).send({ from: address })
             .on('receipt', (r) => {
                 console.log(r.events.SellerAdded.returnValues.name);
-                setLoading(false);
                 setSuccess(true);
             }).on('error', function (error, receipt) {
                 console.log(error)
@@ -207,7 +208,6 @@ const NewProduct = () => {
                         id="createProductBtn"
                         type="submit"
                         onClick={createProductSubmitHandler}
-                        disabled={loading}
                     >
                         Create
                     </Button>
